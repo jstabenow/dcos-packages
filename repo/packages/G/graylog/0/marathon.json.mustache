@@ -45,15 +45,6 @@
     }
   ],
   uris": [
-    {{#plugins.enable_plugins}}
-    "{{plugins.plugin_uri}}"
-    {{#content-packs.content_packs_loader_enabled}}
-    ,
-    {{/content-packs.content_packs_loader_enabled}}
-    {{/plugins.enable_plugins}}
-    {{#content-packs.content_packs_loader_enabled}}
-    "{{content-packs.content_packs_uri}}"
-    {{/content-packs.content_packs_loader_enabled}}
   ],
   "env": {
     "GRAYLOG_IS_MASTER": "{{general.is_master}}",
