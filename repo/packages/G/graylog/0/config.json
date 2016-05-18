@@ -298,7 +298,7 @@
           "default": "standard"
         }
       },
-      "required": ["clustername", "discovery_zen_ping_unicast_hosts"]
+      "required": ["cluster_name", "discovery_zen_ping_unicast_hosts"]
     },
     "mongodb": {
       "description": "MongoDB configuration properties",
