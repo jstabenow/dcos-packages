@@ -1,0 +1,19 @@
+{
+  "packagingVersion": "2.0",
+  "name": "graylog",
+  "version": "2.0.1-2",
+  "tags": ["graylog", "log", "analytics", "monitoring", "alert", "trigger", "messaging"],
+  "maintainer": "hello@jan-stabenow.de",
+  "description": "Open source log management. Centralize and aggregate all your log files for 100% visibility. Use our powerful query language to search through terabytes of log data to discover and analyze important information.",
+  "scm": "https://github.com/Graylog2/graylog2-server",
+  "website": "https://www.graylog.org",
+  "preInstallNotes": "Graylog requires per default 1 CPU, 4096 MB of RAM and a running Elasticsearch and MongoDB cluster. More informations can be found in the Advanced Installation and on the documentation page: http://docs.graylog.org/en/2.0/",
+  "postInstallNotes": "Graylog is getting installed.",
+  "postUninstallNotes": "Graylog is uninstalled successfully.",
+  "licenses": [
+    {
+      "name": "GNU v3",
+      "url": "https://github.com/Graylog2/graylog2-server/blob/master/COPYING"
+    }
+  ]
+}

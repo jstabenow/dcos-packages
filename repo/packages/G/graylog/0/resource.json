@@ -1,0 +1,19 @@
+{
+  "images": {
+    "icon-small": "https://pbs.twimg.com/profile_images/562404576330915840/_HU28D42_400x400.png",
+    "icon-medium": "https://pbs.twimg.com/profile_images/562404576330915840/_HU28D42_400x400.png",
+    "icon-large": "https://pbs.twimg.com/profile_images/562404576330915840/_HU28D42_400x400.png",
+    "screenshots": [
+    	"https://www.graylog.org/assets/overview_search-70bb653087d2c407ac84197b3e67c9ff4d7b53749ed8f5ff29f37091efbe48cd.png",
+    	"https://www.graylog.org/assets/overview_dashboard-3817012f923d4a00e9bde1c0547796319cf0396149464f434cfc2ae83a9da826.png",
+    	"https://www.graylog.org/assets/overview_drilldown-64639ff834e585dc61e8a7276bbb9f3370ce4310f912e38d755fc3953a884717.png"
+    ]
+  },
+  "assets": {
+    "container": {
+      "docker": {
+        "graylog": "graylog2/server:2.0.1-2"
+      }
+    }
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "/{{service.name}}",
+  "instances": {{service.instances}},
+  "cpus": {{service.cpus}},
+  "mem": {{service.mem}},
+  "cmd": "export GRAYLOG_ROOT_PASSWORD_SHA2=$(echo -n {{general.root_password}} | sha256sum | awk '{print $1'}) && export GRAYLOG_REST_LISTEN_URI={{rest.rest_listen_uri}} && export GRAYLOG_REST_LISTEN_URI={{rest.rest_transport_uri}} && export GRAYLOG_ELASTICSEARCH_TRANSPORT_TCP_PORT=$PORT1 && export GRAYLOG_WEB_LISTEN_URI={{web.web_listen_uri}} && /docker-entrypoint.sh graylog",
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "{{resource.assets.container.docker.graylog}}",
+      "network": "HOST"
+    },
+    "volumes": [
+      {
+        "containerPath": "/graylog/data/journal",
+        "hostPath": "{{service.host_volume}}/{{service.name}}",
+        "mode": "RW"
+      }
+    ]
+  },
+  "healthChecks": [
+    {
+      "path": "/",
+      "protocol": "HTTP",
+      "portIndex": 0,
+      "gracePeriodSeconds": 600,
+      "intervalSeconds": 60,
+      "timeoutSeconds": 20,
+      "maxConsecutiveFailures": 3,
+      "ignoreHttp1xx": false
+    }
+  ],
+  "portDefinitions": [
+    {
+      "port": {{service.rest_port}},
+      "protocol": "tcp"
+    },
+    {
+      "port": {{service.elasticsearch_transport_port}},
+      "protocol": "tcp"
+    },
+    {
+      "port": {{service.web_port}},
+      "protocol": "tcp"
+    }
+  ],
+  uris": [
+    {{#plugins.enable_plugins}}
+    "{{plugins.plugin_uri}}"
+    {{#content-packs.content_packs_loader_enabled}}
+    ,
+    {{/content-packs.content_packs_loader_enabled}}
+    {{/plugins.enable_plugins}}
+    {{#content-packs.content_packs_loader_enabled}}
+    "{{content-packs.content_packs_uri}}"
+    {{/content-packs.content_packs_loader_enabled}}
+  ]
+  "env": {
+    "GRAYLOG_IS_MASTER": "{{general.is_master}}",
+    "GRAYLOG_NODE_ID_FILE": "{{general.node_id_file}}",
+    "GRAYLOG_PASSWORD_SECRET": "{{general.password_secret}}",
+    "GRAYLOG_ROOT_USERNAME": "{{general.root_username}}",
+    "GRAYLOG_ROOT_EMAIL": "{{general.root_email}}",
+    "GRAYLOG_ROOT_TIMEZONE": "{{general.root_timezone}}",
+    {{#plugins.enable_plugins}}
+    "GRAYLOG_PLUGIN_DIR": "{{plugins.plugin_dir}}",
+    {{/plugins.enable_plugins}}
+    "GRAYLOG_REST_ENABLE_CORS": "{{rest.rest_enable_cors}}",
+    "GRAYLOG_REST_ENABLE_GZIP": "{{rest.rest_enable_gzip}}",
+    "GRAYLOG_REST_MAX_HEADER_SIZE": "{{rest.rest_max_header_size}}",
+    "GRAYLOG_REST_MAX_INITIAL_LINE_LENGHT": "{{rest.rest_max_initial_line_length}}",
+    "GRAYLOG_REST_THREAD_POOL_SIZE": "{{rest.rest_thread_pool_size}}",
+    "GRAYLOG_WEB_ENABLE": "{{web.web_enable}}",
+    {{#web.web_enable}}
+    "GRAYLOG_WEB_LISTEN_URI": "{{web.web_listen_uri}}",
+    "GRAYLOG_WEB_ENDPOINT_URI": "{{web.web_endpoint_uri}}",
+    "GRAYLOG_WEB_ENABLE_CORS": "{{web.web_enable_cors}}",
+    "GRAYLOG_WEB_ENABLE_GZIP": "{{web.web_enable_gzip}}",
+    "GRAYLOG_WEB_MAX_HEADER_SIZE": "{{web.web_max_header_size}}",
+    "GRAYLOG_WEB_MAX_INITIAL_LINE_LENGTH": "{{web.web_max_initial_line_length}}",
+    "GRAYLOG_WEB_THREAD_POOL_SIZE": "{{web.web_thread_pool_size}}",
+    {{/web.web_enable}}
+    "GRAYLOG_ELASTICSEARCH_CLUSTER_NAME": "{{elasticsearch.cluster_name}}",
+    "GRAYLOG_ELASTICSEARCH_DISCOVERY_ZEN_PING_UNICAST_HOSTS": "{{elasticsearch.discovery_zen_ping_unicast_hosts}}",
+    "GRAYLOG_ELASTICSEARCH_MAX_DOCS_PER_INDEX": "{{elasticsearch.max_docs_per_index}}",
+    "GRAYLOG_ELASTICSEARCH_MAX_NUMBER_OF_INDICES": "{{elasticsearch.max_number_of_indices}}",
+    "GRAYLOG_RETENTION_STRATEGY": "{{elasticsearch.retention_strategy}}",
+    "GRAYLOG_ELASTICSEARCH_SHARDS": "{{elasticsearch.shards}}",
+    "GRAYLOG_ELASTICSEARCH_REPLICAS": "{{elasticsearch.replicas}}",
+    "GRAYLOG_ELASTICSEARCH_INDEX_PREFIX": "{{elasticsearch.index_prefix}}",
+    "GRAYLOG_ELASTICSEARCH_ANALYZER": "{{elasticsearch.analyzer}}",
+    "GRAYLOG_MONGODB_URI": "{{mongodb.uri}}",
+    "GRAYLOG_MONGODB_MAX_CONNECTIONS": "{{mongodb.max_connections}}",
+    "GRAYLOG_MONGODB_THREADS_ALLOWED_TO_BLOCK_MULTIPLIER": "{{mongodb.threads_allowed_to_block_multiplier}}",
+    {{#email.transport_email_enabled}}
+    "GRAYLOG_TRANSPORT_EMAIL_ENABLED": "{{email.transport_email_enabled}}",
+    "GRAYLOG_TRANSPORT_EMAIL_HOSTNAME": "{{email.transport_email_hostname}}",
+    "GRAYLOG_TRANSPORT_EMAIL_PORT": "{{email.transport_email_port}}",
+    "GRAYLOG_TRANSPORT_EMAIL_USE_AUTH": "{{email.transport_email_user_auth}}",
+    "GRAYLOG_TRANSPORT_EMAIL_USE_TLS": "{{email.transport_email_use_tls}}",
+    "GRAYLOG_TRANSPORT_EMAIL_USE_SSL": "{{email.transport_email_use_ssl}}",
+    "GRAYLOG_TRANSPORT_EMAIL_AUTH_USERNAME": "{{email.transport_email_username}}",
+    "GRAYLOG_TRANSPORT_EMAIL_AUTH_PASSWORD": "{{email.transport_email_password}}",
+    "GRAYLOG_TRANSPORT_EMAIL_SUBJECT_PREFIX": "{{email.transport_email_subject_prefix}}",
+    "GRAYLOG_TRANSPORT_EMAIL_FROM_EMAIL": "{{email.transport_email_from_email}}",
+    {{/email.transport_email_enabled}}
+    "GRAYLOG_SERVER_JAVA_OPTS": "-Xms{{service.jvm.heap_min}}m -Xmx{{service.jvm.heap_max}}m -XX:NewRatio=1 -XX:MaxMetaspaceSize={{service.jvm.metaspace_max}}m -server -XX:+ResizeTLAB -XX:+UseConcMarkSweepGC -XX:+CMSConcurrentMTEnabled -XX:+CMSClassUnloadingEnabled -XX:+UseParNewGC -XX:-OmitStackTraceInFastThrow"
+  },
+  "acceptedResourceRoles": [
+    "{{service.role}}"
+  ],
+  "labels": {
+    "DCOS_SERVICE_NAME": "{{service.name}}"
+  }
+}
