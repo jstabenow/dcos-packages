@@ -30,32 +30,6 @@
           "default": 4096.0,
           "minimum": 0
         },
-        "jvm" : {
-          "description": "JVM configuration properties",
-          "additionalProperties" : false,
-          "type": "object",
-          "properties": {
-            "heap_min": {
-              "description": "Memory (MB) start size for the JVM heap. This number should be be less or equals than the heap_max",
-              "type": "integer",
-              "default": 1024,
-              "minimum": 0
-            },
-            "heap_max": {
-              "description": "Memory (MB) max size for the JVM heap. This number should be less than the memory allocated to the Marathon instance (General rule: 50%)",
-              "type": "integer",
-              "default": 2048,
-              "minimum": 0
-            },
-            "metaspace_max": {
-              "description": "Memory (MB) max size for the JVM Metaspace. This limit the amount of native memory used for class metadata",
-              "type": "integer",
-              "default": 256,
-              "minimum": 0
-            }
-          },
-          "required": [ "heap_min", "heap_max", "metaspace_max"]
-        },
         "disk": {
           "description": "Disk (MB) to allocate to each Graylog instance",
           "type": "number",
@@ -91,9 +65,35 @@
           "description": "URI of Marathon instance",
           "type": "string",
           "default": "http://master.mesos:8080"
+        },
+        "jvm" : {
+          "description": "JVM configuration properties",
+          "additionalProperties" : false,
+          "type": "object",
+          "properties": {
+            "heap_min": {
+              "description": "Memory (MB) start size for the JVM heap. This number should be be less or equals than the heap_max",
+              "type": "integer",
+              "default": 1024,
+              "minimum": 0
+            },
+            "heap_max": {
+              "description": "Memory (MB) max size for the JVM heap. This number should be less than the memory allocated to the Marathon instance (General rule: 50%)",
+              "type": "integer",
+              "default": 2048,
+              "minimum": 0
+            },
+            "metaspace_max": {
+              "description": "Memory (MB) max size for the JVM Metaspace. This limit the amount of native memory used for class metadata",
+              "type": "integer",
+              "default": 256,
+              "minimum": 0
+            }
+          },
+          "required": [ "heap_min", "heap_max", "metaspace_max"]
         }
       },
-      "required": ["name", "instances", "cpus", "mem"]
+      "required": ["name", "instances", "cpus", "mem", "disk", "host_volume", "rest_port", "elasticsearch_transport_port", "web_port", "role", "marathon_uri"]
     },
     "general": {
       "description": "Basic configuration properties",
@@ -107,7 +107,7 @@
         "node_id_file": {
           "description": "The auto-generated node ID will be stored in this file and read after restarts. It is a good idea to use an absolute file path here if you are starting Graylog server from init scripts or similar",
           "type": "string",
-          "default": "/mnt/mesos/sandbox/node-id"
+          "default": "/usr/share/graylog/data/config/node-id"
         },
         "password_secret": {
           "description": "Set a secret to secure/pepper the stored user passwords",
@@ -119,8 +119,13 @@
           "type": "string",
           "default": "admin"
         },
+        "root_password_is_sha": {
+          "description": "Enable this if your root_password is a sha code",
+          "type": "boolean",
+          "default": false
+        },
         "root_password": {
-          "description": "Password for the admin user",
+          "description": "Plain password for the admin user or a secure sha code",
           "type": "string",
           "default": "admin"
         },
