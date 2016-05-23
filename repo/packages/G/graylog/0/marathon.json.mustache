@@ -7,7 +7,7 @@
   "cmd": "export GRAYLOG_REST_LISTEN_URI={{rest.rest_listen_uri}} && export GRAYLOG_ELASTICSEARCH_TRANSPORT_TCP_PORT=$PORT1 && export GRAYLOG_WEB_LISTEN_URI={{web.web_listen_uri}} && /docker-entrypoint.sh graylog",
 {{/general.root_password_is_sha}}
 {{^general.root_password_is_sha}}
-  "cmd": "export GRAYLOG_ROOT_PASSWORD_SHA2=$(echo -n {{general.root_password}} | sha256sum | awk '{print $1'}) && export GRAYLOG_REST_LISTEN_URI={{rest.rest_listen_uri}} && export GRAYLOG_ELASTICSEARCH_TRANSPORT_TCP_PORT=$PORT1 && export GRAYLOG_WEB_LISTEN_URI={{web.web_listen_uri}} && /docker-entrypoint.sh graylog",
+  "cmd": "export GRAYLOG_ROOT_PASSWORD_SHA2=$(echo -n {{general.root_password}} | sha256sum | awk '{print $1'}) && export GRAYLOG_REST_LISTEN_URI={{rest.rest_listen_uri}} && export GRAYLOG_REST_TRANSPORT_URI={{rest.rest_transport_uri}} && export GRAYLOG_ELASTICSEARCH_TRANSPORT_TCP_PORT=$PORT1 && export GRAYLOG_WEB_LISTEN_URI={{web.web_listen_uri}} && /docker-entrypoint.sh graylog",
 {{/general.root_password_is_sha}}
   "container": {
     "type": "DOCKER",
