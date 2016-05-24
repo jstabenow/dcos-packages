@@ -1,9 +1,9 @@
 {
-  "id": "{{elasticsearch.framework-name}}",
-  "cpus": {{elasticsearch.scheduler.cpu}},
-  "mem": {{elasticsearch.scheduler.ram}},
+  "id": "{{service.framework-name}}",
+  "cpus": {{service.cpu}},
+  "mem": {{service.ram}},
   "ports": [0],
-  "instances": {{elasticsearch.scheduler.instances}},
+  "instances": {{service.instances}},
   "healthChecks": [
     {
       "gracePeriodSeconds": 120,
@@ -16,36 +16,73 @@
     }
   ],
   "args": [
-    "--zookeeperMesosUrl", "{{mesos.master}}",
-    "--zookeeperMesosTimeout", "{{elasticsearch.zookeeper-mesos-timeout}}",
-    "--webUiPort", "{{elasticsearch.port}}",
-    "--frameworkFailoverTimeout", "{{elasticsearch.failover-timeout}}",
-    "--frameworkName", "{{elasticsearch.framework-name}}",
-
-    "--elasticsearchNodes", "{{elasticsearch.executor.instances}}",
-    "--elasticsearchClusterName", "{{elasticsearch.executor.cluster-name}}",
-    "--elasticsearchCpu", "{{elasticsearch.executor.cpu}}",
-    "--elasticsearchDisk", "{{elasticsearch.executor.disk}}",
-    "--elasticsearchRam", "{{elasticsearch.executor.ram}}",
+  
+    "--frameworkName", "{{service.framework-name}}",
+    "--frameworkFailoverTimeout", "{{service.framework-failover-timeout}}",
+    "--zookeeperMesosUrl", "{{service.zookeeper-mesos-url}}",
+    "--zookeeperMesosTimeout", "{{service.zookeeper-mesos-timeout}}",
+    "--webUiPort", "{{service.web-ui-port}}",
+      
+  {{#service.external-volume.enable}}
+    "--externalVolumeDriver", "{{service.external-volume.externalVolumeDriver}}",
+    "--externalVolumeOptions", "{{service.external-volume.externalVolumeOptions}}",
+  {{/service.external-volume.enable}}
+    
+   "--useIpAddress", "{{service.use-ip-address}}",
+   
+  {{#service.framework-principal.enable}}
+    "--frameworkPrincipal", "{{service.framework-principal.framework-principal}}",
+    "--frameworkSecretPath", "{{service.framework-principal.framework-secret-path}}",
+  {{/service.framework-principal.enable}}
+   
+  {{#elasticsearch.executor.enable-settings-location}}
     "--elasticsearchSettingsLocation", "{{elasticsearch.executor.settings-location}}",
-
-    "--executorForcePullImage", "{{elasticsearch.force-pull-image}}",
-    "--executorName", "{{elasticsearch.executor.name}}"
+  {{/elasticsearch.executor.enable-settings-location}}
+    
+    "--elasticsearchClusterName", "{{elasticsearch.elasticsearch-cluster-name}}",
+    "--executorName", "{{elasticsearch.executor-name}}",
+    "--elasticsearchNodes", "{{elasticsearch.elasticsearch-nodes}}",
+    "--elasticsearchCpu", "{{elasticsearch.elasticsearch-cpu}}",
+    "--elasticsearchDisk", "{{elasticsearch.elasticsearch-disk}}",
+    "--elasticsearchRam", "{{elasticsearch.elasticsearch-ram}}",
+  
+  {{#elasticsearch.framework-use-docker}}
+    "--elasticsearchDockerImage", "{{elasticsearch-docker-image}}",
+    "--executorForcePullImage", "{{elasticsearch.docker-settings.force-pull-image}}",
+    "--dataDir", "{{elasticsearch.docker-settings.datadir}}"
+  {{/elasticsearch.framework-use-docker}}
+  {{^elasticsearch.framework-use-docker}}
+    "--elasticsearchBinaryUrl", "{{elasticsearch.jar-settings.elasticsearch-binary-url}}",
+    "--javaHome", "{{elasticsearch.java-home}}"
+  {{/elasticsearch.framework-use-docker}}
+    
   ],
   "env": {
-    "JAVA_OPTS": "{{elasticsearch.scheduler.java-heap}}"
+    "JAVA_OPTS": "{{service.java-heap}}"
   },
   "container": {
     "type": "DOCKER",
     "docker": {
       "image": "{{resource.assets.container.docker.elasticsearch-scheduler}}",
       "network": "HOST",
-      "forcePullImage": {{elasticsearch.force-pull-image}}
+      "forcePullImage": {{settings.force-pull-image}}
     }
+  {{#service.framework-principal.enable}}    
+    ,"volumes": [
+      {
+        "containerPath": "{{service.framework-principal.framework-secret-path}} ",
+        "hostPath": "{{service.framework-principal.framework-secret-path}}",
+        "mode": "RO"
+      }
+    ]
+  {{/service.framework-principal.enable}}
   },
   "ports": [{{elasticsearch.port}}],
   "requirePorts": true,
+  "acceptedResourceRoles": [
+    "{{service.framework-role}}"
+  ],
   "labels": {
-    "DCOS_PACKAGE_FRAMEWORK_NAME": "{{elasticsearch.framework-name}}"
+    "DCOS_PACKAGE_FRAMEWORK_NAME": "{{service.framework-name}}"
   }
 }
