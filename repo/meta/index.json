@@ -1,6 +1,22 @@
 {
   "packages":[
     {
+      "currentVersion":"1.0.1",
+      "description":"DCOS implementation of the Mesos-Elasticsearch framework",
+      "framework":true,
+      "name":"elasticsearch",
+      "selected":false,
+      "tags":[
+        "elastic",
+        "monitoring",
+        "debug"
+      ],
+      "versions":{
+        "0.7.0":"0",
+        "1.0.1":"1"
+      }
+    },
+    {
       "currentVersion":"2.0.1-2",
       "description":"Open source log management. Centralize and aggregate all your log files for 100% visibility. Use our powerful query language to search through terabytes of log data to discover and analyze important information.",
       "framework":false,
