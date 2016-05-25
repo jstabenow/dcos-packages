@@ -21,29 +21,16 @@
     "--zookeeperMesosUrl", "{{service.zookeeper-mesos-url}}",
     "--zookeeperMesosTimeout", "{{service.zookeeper-mesos-timeout}}",
     "--webUiPort", "{{service.web-ui-port}}",
-  {{#service.external-volume.enable}}
-    "--externalVolumeDriver", "{{service.external-volume.externalVolumeDriver}}",
-    "--externalVolumeOptions", "{{service.external-volume.externalVolumeOptions}}",
-  {{/service.external-volume.enable}}
-   "--useIpAddress", "{{service.use-ip-address}}",
-  {{#service.framework-principal.enable}}
-    "--frameworkPrincipal", "{{service.framework-principal.framework-principal}}",
-    "--frameworkSecretPath", "{{service.framework-principal.framework-secret-path}}",
-  {{/service.framework-principal.enable}}
-  {{#elasticsearch.executor.enable-settings-location}}
-    "--elasticsearchSettingsLocation", "{{elasticsearch.executor.settings-location}}",
-  {{/elasticsearch.executor.enable-settings-location}}
+    "--useIpAddress", "{{service.use-ip-address}}",
     "--elasticsearchClusterName", "{{elasticsearch.elasticsearch-cluster-name}}",
     "--executorName", "{{elasticsearch.executor-name}}",
     "--elasticsearchNodes", "{{elasticsearch.elasticsearch-nodes}}",
     "--elasticsearchCpu", "{{elasticsearch.elasticsearch-cpu}}",
     "--elasticsearchDisk", "{{elasticsearch.elasticsearch-disk}}",
     "--elasticsearchRam", "{{elasticsearch.elasticsearch-ram}}",
-  {{#elasticsearch.framework-use-docker}}
     "--elasticsearchDockerImage", "{{elasticsearch-docker-image}}",
     "--executorForcePullImage", "{{elasticsearch.docker-settings.force-pull-image}}",
     "--dataDir", "{{elasticsearch.docker-settings.datadir}}"
-  {{/elasticsearch.framework-use-docker}}
   ],
   "env": {
     "JAVA_OPTS": "{{service.java-heap}}"
@@ -55,15 +42,6 @@
       "network": "HOST",
       "forcePullImage": {{settings.force-pull-image}}
     }
-  {{#service.framework-principal.enable}}    
-    ,"volumes": [
-      {
-        "containerPath": "{{service.framework-principal.framework-secret-path}} ",
-        "hostPath": "{{service.framework-principal.framework-secret-path}}",
-        "mode": "RO"
-      }
-    ]
-  {{/service.framework-principal.enable}}
   },
   "ports": [{{elasticsearch.port}}],
   "requirePorts": true,
