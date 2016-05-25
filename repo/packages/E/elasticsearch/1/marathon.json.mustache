@@ -28,7 +28,7 @@
     "--elasticsearchCpu", "{{elasticsearch.elasticsearch-cpu}}",
     "--elasticsearchDisk", "{{elasticsearch.elasticsearch-disk}}",
     "--elasticsearchRam", "{{elasticsearch.elasticsearch-ram}}",
-    "--elasticsearchDockerImage", "{{elasticsearch-docker-image}}",
+    "--elasticsearchDockerImage", "{{elasticsearch.docker-settings.elasticsearch-docker-image}}",
     "--executorForcePullImage", "{{elasticsearch.docker-settings.force-pull-image}}",
     "--dataDir", "{{elasticsearch.docker-settings.datadir}}"
   ],
@@ -40,7 +40,7 @@
     "docker": {
       "image": "{{resource.assets.container.docker.elasticsearch-scheduler}}",
       "network": "HOST",
-      "forcePullImage": {{settings.force-pull-image}}
+      "forcePullImage": {{service.force-pull-image}}
     }
   },
   "ports": [{{elasticsearch.port}}],
