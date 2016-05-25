@@ -154,9 +154,9 @@
               "default": false
             },
             "settings-location": {
-              "description": "Path or URL to ES yml settings file. Path example: '/var/lib/mesos/config/elasticsearch.yml'. URL example: 'https://gist.githubusercontent.com/mmaloney/5e1da5daa58b70a3a671/raw/elasticsearch.yml'. In Docker mode a volume will be created from /tmp/config in the container to the directory that contains elasticsearch.yml",
+              "description": "Path or URL to ES yml settings file. In Docker mode a volume will be created from /tmp/config in the container to the directory that contains elasticsearch.yml",
               "type": "string",
-              "default": ""
+              "default": "https://gist.githubusercontent.com/mmaloney/5e1da5daa58b70a3a671/raw/elasticsearch.yml"
             }
           }
         },
@@ -197,7 +197,7 @@
             "java-home": {
               "description": "When starting in jar mode, if java is not on the path, you can specify the path here",
               "type": "string",
-              "default": "/opt/mespsphere/bin/java"
+              "default": "/opt/mesosphere/active/java/usr/java"
             }
           }
         }

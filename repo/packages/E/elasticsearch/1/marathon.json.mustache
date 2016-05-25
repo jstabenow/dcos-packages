@@ -16,46 +16,34 @@
     }
   ],
   "args": [
-  
     "--frameworkName", "{{service.framework-name}}",
     "--frameworkFailoverTimeout", "{{service.framework-failover-timeout}}",
     "--zookeeperMesosUrl", "{{service.zookeeper-mesos-url}}",
     "--zookeeperMesosTimeout", "{{service.zookeeper-mesos-timeout}}",
     "--webUiPort", "{{service.web-ui-port}}",
-      
   {{#service.external-volume.enable}}
     "--externalVolumeDriver", "{{service.external-volume.externalVolumeDriver}}",
     "--externalVolumeOptions", "{{service.external-volume.externalVolumeOptions}}",
   {{/service.external-volume.enable}}
-    
    "--useIpAddress", "{{service.use-ip-address}}",
-   
   {{#service.framework-principal.enable}}
     "--frameworkPrincipal", "{{service.framework-principal.framework-principal}}",
     "--frameworkSecretPath", "{{service.framework-principal.framework-secret-path}}",
   {{/service.framework-principal.enable}}
-   
   {{#elasticsearch.executor.enable-settings-location}}
     "--elasticsearchSettingsLocation", "{{elasticsearch.executor.settings-location}}",
   {{/elasticsearch.executor.enable-settings-location}}
-    
     "--elasticsearchClusterName", "{{elasticsearch.elasticsearch-cluster-name}}",
     "--executorName", "{{elasticsearch.executor-name}}",
     "--elasticsearchNodes", "{{elasticsearch.elasticsearch-nodes}}",
     "--elasticsearchCpu", "{{elasticsearch.elasticsearch-cpu}}",
     "--elasticsearchDisk", "{{elasticsearch.elasticsearch-disk}}",
     "--elasticsearchRam", "{{elasticsearch.elasticsearch-ram}}",
-  
   {{#elasticsearch.framework-use-docker}}
     "--elasticsearchDockerImage", "{{elasticsearch-docker-image}}",
     "--executorForcePullImage", "{{elasticsearch.docker-settings.force-pull-image}}",
     "--dataDir", "{{elasticsearch.docker-settings.datadir}}"
   {{/elasticsearch.framework-use-docker}}
-  {{^elasticsearch.framework-use-docker}}
-    "--elasticsearchBinaryUrl", "{{elasticsearch.jar-settings.elasticsearch-binary-url}}",
-    "--javaHome", "{{elasticsearch.java-home}}"
-  {{/elasticsearch.framework-use-docker}}
-    
   ],
   "env": {
     "JAVA_OPTS": "{{service.java-heap}}"
