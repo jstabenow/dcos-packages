@@ -43,11 +43,8 @@
       "forcePullImage": {{service.force-pull-image}}
     }
   },
-  "ports": [{{elasticsearch.port}}],
+  "ports": [{{service.web-ui-port}}],
   "requirePorts": true,
-  "acceptedResourceRoles": [
-    "{{service.framework-role}}"
-  ],
   "labels": {
     "DCOS_PACKAGE_FRAMEWORK_NAME": "{{service.framework-name}}"
   }
