@@ -171,7 +171,7 @@
             "elasticsearch-docker-image": {
               "description": "The elasticsearch docker image to use",
               "type": "string",
-              "default": "elasticsearch:latest"
+              "default": "jstabenow/dcos-elasticsearch:latest"
             },
             "force-pull-image": {
               "description": "Forces docker to re-pull the image",
