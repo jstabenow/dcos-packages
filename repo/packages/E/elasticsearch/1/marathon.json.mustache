@@ -59,6 +59,15 @@
       "network": "HOST",
       "forcePullImage": {{service.force-pull-image}}
     }
+  {{#service.framework-principal.enable}}    
+    ,"volumes": [
+      {
+        "containerPath": "{{service.framework-principal.framework-secret-path}} ",
+        "hostPath": "{{service.framework-principal.framework-secret-path}}",
+        "mode": "RO"
+      }
+    ]
+  {{/service.framework-principal.enable}}
   },
   "ports": [{{service.web-ui-port}}],
   "requirePorts": true,

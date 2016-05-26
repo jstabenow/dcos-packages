@@ -70,7 +70,7 @@
           "type": "object",
           "properties": {
             "enable": {
-              "description": "Enables framework-principal",
+              "description": "Enables external volume options",
               "type": "boolean",
               "default": false
             },
