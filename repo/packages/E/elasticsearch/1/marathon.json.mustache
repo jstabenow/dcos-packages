@@ -39,6 +39,7 @@
     "--elasticsearchCpu", "{{elasticsearch.elasticsearch-cpu}}",
     "--elasticsearchDisk", "{{elasticsearch.elasticsearch-disk}}",
     "--elasticsearchRam", "{{elasticsearch.elasticsearch-ram}}",
+    "--executorNetworkPublishHost", "{{elasticsearch.executor-network-publish-host}}",
   {{#elasticsearch.framework-use-docker}}
     "--elasticsearchDockerImage", "{{elasticsearch.docker-settings.elasticsearch-docker-image}}",
     "--executorForcePullImage", "{{elasticsearch.docker-settings.force-pull-image}}",

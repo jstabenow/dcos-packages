@@ -7,7 +7,7 @@
   "assets": {
     "container": {
       "docker": {
-        "elasticsearch-scheduler": "mesos/elasticsearch-scheduler:1.0.1"
+        "elasticsearch-scheduler": "jstabenow/elasticsearch-scheduler:latest"
       }
     }
   }

@@ -145,6 +145,11 @@
           "default": 1024,
           "minimum": 128
         },
+        "executor-network-publish-host":{
+          "description": "Option to change the executor network.publish.host parameter",
+          "type": "string",
+          "default": "${LIBPROCESS_IP}"
+        },
         "elasticsearch-settings-location":{
           "type": "object",
           "properties": {
@@ -171,7 +176,7 @@
             "elasticsearch-docker-image": {
               "description": "The elasticsearch docker image to use",
               "type": "string",
-              "default": "jstabenow/dcos-elasticsearch:latest"
+              "default": "elasticsearch:latest"
             },
             "force-pull-image": {
               "description": "Forces docker to re-pull the image",
